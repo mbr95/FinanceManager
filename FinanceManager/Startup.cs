@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace FinanceManager
 {
@@ -20,7 +21,8 @@ namespace FinanceManager
         {
             services.ConfigureDbContext(Configuration);
             services.ConfigureIdentity();
-            services.AddControllers();
+            services.ConfigureApiVersioning();
+            services.AddControllers();          
             services.ConfigureSwagger();
         }
 
