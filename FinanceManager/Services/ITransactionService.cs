@@ -1,4 +1,4 @@
-﻿using FinanceManager.Models;
+﻿using FinanceManager.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

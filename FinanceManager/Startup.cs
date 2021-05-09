@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc.Versioning;
+using FinanceManager.Services;
 
 namespace FinanceManager
 {
@@ -24,6 +24,7 @@ namespace FinanceManager
             services.ConfigureApiVersioning();
             services.AddControllers();          
             services.ConfigureSwagger();
+            services.AddScoped<ITransactionService, TransactionService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FinanceManager.Models
+namespace FinanceManager.Domain.Models
 {
     public class Transaction
     {

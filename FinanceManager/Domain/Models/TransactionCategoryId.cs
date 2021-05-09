@@ -1,4 +1,4 @@
-﻿namespace FinanceManager.Models
+﻿namespace FinanceManager.Domain.Models
 {
     public enum TransactionCategoryId
     {

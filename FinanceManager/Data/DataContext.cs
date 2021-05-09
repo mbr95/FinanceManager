@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FinanceManager.Models;
+using FinanceManager.Domain.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

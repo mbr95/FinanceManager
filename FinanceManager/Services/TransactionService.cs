@@ -1,5 +1,5 @@
 ﻿using FinanceManager.Data;
-using FinanceManager.Models;
+using FinanceManager.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

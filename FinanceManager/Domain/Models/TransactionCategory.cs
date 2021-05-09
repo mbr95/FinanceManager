@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FinanceManager.Models
+namespace FinanceManager.Domain.Models
 {
     public class TransactionCategory
     {
