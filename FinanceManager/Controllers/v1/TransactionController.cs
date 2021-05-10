@@ -39,7 +39,7 @@ namespace FinanceManager.Controllers.v1
 
             return Ok(response);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTransactionRequest transactionRequest)
         {
@@ -59,10 +59,12 @@ namespace FinanceManager.Controllers.v1
 
         }
 
-
         [HttpPut("{transactionId:int}")]
         public async Task<IActionResult> Update([FromRoute] int transactionId, [FromBody] UpdateTransactionRequest transactionRequest)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var transaction = new Transaction()
             {
                 Id = transactionId,
