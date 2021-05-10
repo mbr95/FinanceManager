@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManager.Controllers.v1
 {
-    [Route("api/v{version:apiVersion}/")]
+    [Route("api/v{version:apiVersion}/transactions/")]
     [ApiController]
     [ApiVersion("1.0")]
     public class TransactionController : ControllerBase
@@ -20,14 +20,14 @@ namespace FinanceManager.Controllers.v1
             _transactionService = transactionService;
         }
 
-        [HttpGet("transactions")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var transactions = await _transactionService.GetTransactionsAsync();
             return Ok(transactions.Select(e => new TransactionResponse{ Id = e.Id, Description = e.Description, Amount = e.Amount, Date = e.Date, CategoryId = (int)e.CategoryId}));
         }
 
-        [HttpGet("transactions/{transactionId:int}", Name = "GetTransaction")]
+        [HttpGet("{transactionId:int}", Name = "GetTransaction")]
         public async Task<IActionResult> Get(int transactionId)
         {
             var transaction = await _transactionService.GetTransactionByIdAsync(transactionId);
@@ -40,7 +40,7 @@ namespace FinanceManager.Controllers.v1
             return Ok(response);
         }
 
-        [HttpPost("transactions")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTransactionRequest transactionRequest)
         {
             if (!ModelState.IsValid)
@@ -60,7 +60,7 @@ namespace FinanceManager.Controllers.v1
         }
 
 
-        [HttpPut("transactions/{transactionId:int}")]
+        [HttpPut("{transactionId:int}")]
         public async Task<IActionResult> Update([FromRoute] int transactionId, [FromBody] UpdateTransactionRequest transactionRequest)
         {
             var transaction = new Transaction()
@@ -82,15 +82,15 @@ namespace FinanceManager.Controllers.v1
             return Ok(transactionResponse);
         }
 
-        [HttpDelete("transactions/{transactionId:int}")]
+        [HttpDelete("{transactionId:int}")]
         public async Task<IActionResult> Delete([FromRoute] int transactionId)
         {
             var deleted = await _transactionService.DeleteTransactionAsync(transactionId);
 
-            if (deleted)
-                return NoContent();
+            if (!deleted)
+                return NotFound();
 
-            return NotFound();
+            return NoContent();
         }
     }
 }

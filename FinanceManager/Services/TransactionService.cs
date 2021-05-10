@@ -34,14 +34,23 @@ namespace FinanceManager.Services
 
         public async Task<bool> UpdateTransactionAsync(Transaction transactionToUpdate)
         {
-            _dataContext.Transactions.Update(transactionToUpdate);
+            var transactionExists = _dataContext.Transactions.FindAsync(transactionToUpdate.Id).Result;
+
+            if(transactionExists == null)
+                return false;
+
+            _dataContext.Entry(transactionExists).CurrentValues.SetValues(transactionToUpdate);
             var updated = await _dataContext.SaveChangesAsync();
             return updated > 0;
         }
 
         public async Task<bool> DeleteTransactionAsync(int id)
         {
-            var transaction = await GetTransactionByIdAsync(id);
+            var transaction = _dataContext.Transactions.FindAsync(id).Result;
+
+            if (transaction == null)
+                return false;
+            
             _dataContext.Transactions.Remove(transaction);
             var deleted = await _dataContext.SaveChangesAsync();
             return deleted > 0;
