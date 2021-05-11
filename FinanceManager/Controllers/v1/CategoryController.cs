@@ -2,10 +2,7 @@
 using FinanceManager.Responses.v1;
 using FinanceManager.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FinanceManager.Controllers.v1
