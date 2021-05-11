@@ -27,6 +27,7 @@ namespace FinanceManager
             services.ConfigureSwagger();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ITransactionCategoryService, TransactionCategoryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
