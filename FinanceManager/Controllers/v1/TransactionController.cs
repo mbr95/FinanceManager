@@ -1,8 +1,11 @@
-﻿using FinanceManager.Domain.Models;
+﻿using AutoMapper;
+using FinanceManager.Domain.Models;
 using FinanceManager.Requests.v1;
 using FinanceManager.Responses.v1;
 using FinanceManager.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,17 +17,21 @@ namespace FinanceManager.Controllers.v1
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
+        private readonly IMapper _mapper;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(ITransactionService transactionService, IMapper mapper)
         {
             _transactionService = transactionService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var transactions = await _transactionService.GetTransactionsAsync();
-            return Ok(transactions.Select(e => new TransactionResponse{ Id = e.Id, Description = e.Description, Amount = e.Amount, Date = e.Date, CategoryId = (int)e.CategoryId}));
+            var transactionsResponse = _mapper.Map<IEnumerable<TransactionResponse>>(transactions);
+
+            return Ok(transactionsResponse);
         }
 
         [HttpGet("{transactionId:int}", Name = "GetTransaction")]
@@ -35,9 +42,9 @@ namespace FinanceManager.Controllers.v1
             if (transaction == null)
                 return NotFound();
 
-            var response = new TransactionResponse { Id = transaction.Id, Description = transaction.Description, Amount = transaction.Amount, Date = transaction.Date, CategoryId = (int)transaction.CategoryId };
+            var transactionResponse = _mapper.Map<TransactionResponse>(transaction);
 
-            return Ok(response);
+            return Ok(transactionResponse);
         }
         
         [HttpPost]
@@ -46,14 +53,14 @@ namespace FinanceManager.Controllers.v1
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var transaction = new Transaction { Description = transactionRequest.Description, Amount = transactionRequest.Amount, Date = transactionRequest.Date, CategoryId = (TransactionCategoryId)transactionRequest.CategoryId };
+            var transaction = _mapper.Map<Transaction>(transactionRequest);
 
             var createdTransaction = await _transactionService.CreateTransactionAsync(transaction);
 
             if (!createdTransaction)
                 return BadRequest();
            
-            var transactionResponse = new TransactionResponse { Id = transaction.Id, Description = transaction.Description, Amount = transaction.Amount, Date = transaction.Date, CategoryId = (int)transaction.CategoryId };
+            var transactionResponse = _mapper.Map<TransactionResponse>(transaction);
 
             return CreatedAtRoute("GetTransaction", new { transactionId = transactionResponse.Id }, transactionResponse);
 
@@ -65,21 +72,15 @@ namespace FinanceManager.Controllers.v1
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var transaction = new Transaction()
-            {
-                Id = transactionId,
-                Description = transactionRequest.Description,
-                Amount = transactionRequest.Amount,
-                Date = transactionRequest.Date,
-                CategoryId = (TransactionCategoryId)transactionRequest.CategoryId,
-            };
+            var transaction = _mapper.Map<Transaction>(transactionRequest);
+            transaction.Id = transactionId;
 
             var updated = await _transactionService.UpdateTransactionAsync(transaction);
 
             if (!updated)
                 return NotFound();
 
-            var transactionResponse = new TransactionResponse { Id = transaction.Id, Description = transaction.Description, Amount = transaction.Amount, Date = transaction.Date, CategoryId = (int)transaction.CategoryId };
+            var transactionResponse = _mapper.Map<TransactionResponse>(transaction);
 
             return Ok(transactionResponse);
         }
