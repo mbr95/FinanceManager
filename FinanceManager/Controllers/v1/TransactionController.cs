@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinanceManager.Domain.Models;
+using FinanceManager.Extensions;
 using FinanceManager.Requests.v1;
 using FinanceManager.Responses.v1;
 using FinanceManager.Services;
@@ -49,7 +50,7 @@ namespace FinanceManager.Controllers.v1
         public async Task<IActionResult> Create([FromBody] CreateTransactionRequest transactionRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState.GetErrorMessages());
 
             var transaction = _mapper.Map<Transaction>(transactionRequest);
 
@@ -68,7 +69,7 @@ namespace FinanceManager.Controllers.v1
         public async Task<IActionResult> Update([FromRoute] int transactionId, [FromBody] UpdateTransactionRequest transactionRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState.GetErrorMessages());
 
             var transaction = _mapper.Map<Transaction>(transactionRequest);
             transaction.Id = transactionId;

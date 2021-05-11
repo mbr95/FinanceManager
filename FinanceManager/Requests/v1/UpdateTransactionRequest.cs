@@ -7,6 +7,7 @@ namespace FinanceManager.Requests.v1
     public class UpdateTransactionRequest
     {
         [Required]
+        [MaxLength(25)]
         public string Description { get; set; }
 
         [Required]
