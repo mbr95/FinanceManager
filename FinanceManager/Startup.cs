@@ -19,7 +19,6 @@ namespace FinanceManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureDbContext(Configuration);
-            services.ConfigureIdentity();
             services.ConfigureApiVersioning();
             services.AddControllers();          
             services.ConfigureSwagger();

@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Linq;
 using FinanceManager.Domain.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceManager.Data
 {
-    public class DataContext : IdentityDbContext
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
 
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionCategory> TransactionCategories { get; set; }

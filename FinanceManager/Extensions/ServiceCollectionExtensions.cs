@@ -1,6 +1,5 @@
 ﻿using FinanceManager.Data;
 using FinanceManager.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,14 +16,6 @@ namespace FinanceManager.Extensions
             services.AddDbContext<DataContext>(options =>
                options.UseSqlServer(
                    configuration.GetConnectionString("DefaultConnection")));
-
-            return services;
-        }
-
-        public static IServiceCollection ConfigureIdentity(this IServiceCollection services)
-        {
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DataContext>();
 
             return services;
         }

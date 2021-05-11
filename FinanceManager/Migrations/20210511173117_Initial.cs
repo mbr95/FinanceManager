@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FinanceManager.Data.Migrations
+namespace FinanceManager.Migrations
 {
-    public partial class AddedTransactionsWithCategories : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
