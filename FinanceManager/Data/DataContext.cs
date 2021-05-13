@@ -2,10 +2,12 @@
 using System.Linq;
 using FinanceManager.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FinanceManager.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options) { }
@@ -36,7 +38,6 @@ namespace FinanceManager.Data
                 .Property(e => e.Date)
                 .IsRequired()
                 .HasColumnType("Date");
-
             
             modelBuilder
                 .Entity<TransactionCategory>()
@@ -45,7 +46,7 @@ namespace FinanceManager.Data
                 .HasColumnType("Nvarchar(15)");
                 
 
-            // Value conversions and data seeding for TransactionCategories
+            // Value conversions and data seeding
             modelBuilder
                 .Entity<Transaction>()
                 .Property(e => e.CategoryId)
@@ -55,7 +56,6 @@ namespace FinanceManager.Data
                 .Entity<TransactionCategory>()
                 .Property(e => e.Id)
                 .HasConversion<int>();
-
             modelBuilder
                 .Entity<TransactionCategory>()
                 .HasData(
@@ -67,7 +67,6 @@ namespace FinanceManager.Data
                             Name = e.ToString()
                         })
                 );
-
         }
     }
 }

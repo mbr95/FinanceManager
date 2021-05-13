@@ -8,7 +8,8 @@ namespace FinanceManager.Domain.Models
         public string Description { get; set; }
         public double Amount { get; set; }
         public DateTime Date { get; set; }
+
         public TransactionCategoryId CategoryId { get; set; }
-        public TransactionCategory Category { get; set; }     
+        public TransactionCategory Category { get; set; }
     }
 }

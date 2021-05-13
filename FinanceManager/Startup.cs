@@ -18,9 +18,12 @@ namespace FinanceManager
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureMvc();
             services.ConfigureDbContext(Configuration);
             services.ConfigureApiVersioning();
-            services.AddControllers();          
+            services.AddControllers();
+            services.ConfigureIdentity();
+            services.ConfigureJwtAuthentication(Configuration);
             services.ConfigureSwagger();
             services.ConfigureDependencyInjection();
         }
@@ -36,9 +39,10 @@ namespace FinanceManager
                 app.UseHsts();
             }
 
-            app.ConfigureSwagger(Configuration);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.ConfigureSwagger(Configuration);           
             app.UseRouting();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
