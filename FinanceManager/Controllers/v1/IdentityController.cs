@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceManager.Extensions;
 using FinanceManager.Requests.v1;
 using FinanceManager.Responses.v1;
 using FinanceManager.Services;
@@ -26,10 +27,31 @@ namespace FinanceManager.Controllers.v1
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest registerUserRequest)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+
             var newUser = _mapper.Map<IdentityUser>(registerUserRequest);
             var authResponse = await _identityService.RegisterUserAsync(newUser);
 
-            if(!authResponse.Success)
+            if (!authResponse.Success)
+            {
+                var authFailed = _mapper.Map<AuthenticationFailedResponse>(authResponse);
+                return BadRequest(authFailed.Errors);
+            }
+
+            var authSucceeded = _mapper.Map<AuthenticationSucceededResponse>(authResponse);
+            return Ok(authSucceeded);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUserRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+
+            var authResponse = await _identityService.LoginUserAsync(loginUserRequest.UserName, loginUserRequest.Password);
+
+            if (!authResponse.Success)
             {
                 var authFailed = _mapper.Map<AuthenticationFailedResponse>(authResponse);
                 return BadRequest(authFailed.Errors);

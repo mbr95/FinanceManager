@@ -32,13 +32,36 @@ namespace FinanceManager.Services
                 return new AuthenticationResult { Errors = new[] { "User with this email address already exists." } };
             }
 
-            var createdUser = await _userManager.CreateAsync(user);
+            var createdUser = await _userManager.CreateAsync(user, user.PasswordHash);
 
             if (!createdUser.Succeeded)
             {
                 return new AuthenticationResult { Errors = createdUser.Errors.Select(e => e.Description) };
             }
 
+            return GenerateAuthenticationResult(user);
+        }     
+
+        public async Task<AuthenticationResult> LoginUserAsync(string userName, string password)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if(user == null)
+            {
+                return new AuthenticationResult { Errors = new[] { "User doesn't exist." } };                
+            }
+            var userPasswordIsValid = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!userPasswordIsValid)
+            {
+                return new AuthenticationResult { Errors = new[] { "Invalid password." } };
+            }
+
+            return GenerateAuthenticationResult(user);
+        }
+
+        private AuthenticationResult GenerateAuthenticationResult(IdentityUser user)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -50,7 +73,7 @@ namespace FinanceManager.Services
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim("id", user.Id)
                 }),
-                Expires = DateTime.UtcNow.AddHours(2),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
