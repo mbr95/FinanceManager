@@ -55,5 +55,15 @@ namespace FinanceManager.Services
             var deleted = await _dataContext.SaveChangesAsync();
             return deleted > 0;
         }
+
+        public async Task<bool> IsTransactionOwnerAsync(int transactionId, string userId)
+        {
+            var transaction = await _dataContext.Transactions.AsNoTracking().SingleOrDefaultAsync(e => e.Id == transactionId);
+
+            if (transaction == null)
+                return false;
+
+            return transaction.UserId == userId;
+        }
     }
 }

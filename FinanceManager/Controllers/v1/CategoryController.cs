@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FinanceManager.Responses.v1;
 using FinanceManager.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace FinanceManager.Controllers.v1
     [Route("api/v{version:apiVersion}/categories/")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoryController : ControllerBase
     {
         private readonly ITransactionCategoryService _transactionCategoryService;

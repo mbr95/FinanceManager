@@ -40,10 +40,11 @@ namespace FinanceManager
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseAuthentication();
+            app.UseStaticFiles();             
             app.ConfigureSwagger(Configuration);           
             app.UseRouting();
+            app.UseAuthentication(); 
+            app.UseAuthorization();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace FinanceManager.Domain.Models
 {
@@ -11,5 +12,8 @@ namespace FinanceManager.Domain.Models
 
         public TransactionCategoryId CategoryId { get; set; }
         public TransactionCategory Category { get; set; }
+
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
     }
 }

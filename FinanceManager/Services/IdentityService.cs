@@ -39,7 +39,7 @@ namespace FinanceManager.Services
                 return new AuthenticationResult { Errors = createdUser.Errors.Select(e => e.Description) };
             }
 
-            return GenerateAuthenticationResult(user);
+            return GenerateAuthenticationResultWithToken(user);
         }     
 
         public async Task<AuthenticationResult> LoginUserAsync(string userName, string password)
@@ -57,10 +57,10 @@ namespace FinanceManager.Services
                 return new AuthenticationResult { Errors = new[] { "Invalid password." } };
             }
 
-            return GenerateAuthenticationResult(user);
+            return GenerateAuthenticationResultWithToken(user);
         }
 
-        private AuthenticationResult GenerateAuthenticationResult(IdentityUser user)
+        private AuthenticationResult GenerateAuthenticationResultWithToken(IdentityUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);

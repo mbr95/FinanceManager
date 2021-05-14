@@ -11,5 +11,6 @@ namespace FinanceManager.Services
         Task<bool> CreateTransactionAsync(Transaction transaction);
         Task<bool> UpdateTransactionAsync(Transaction transactionToUpdate);
         Task<bool> DeleteTransactionAsync(int id);
+        Task<bool> IsTransactionOwnerAsync(int transactionId, string userId);
     }
 }

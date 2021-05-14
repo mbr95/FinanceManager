@@ -44,6 +44,13 @@ namespace FinanceManager.Data
                 .Property(e => e.Name)
                 .IsRequired()
                 .HasColumnType("Nvarchar(15)");
+
+            modelBuilder
+                .Entity<IdentityUser>()
+                .HasMany<Transaction>()
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
                 
 
             // Value conversions and data seeding
