@@ -14,6 +14,7 @@ namespace FinanceManager.Data
 
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionCategory> TransactionCategories { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,6 +52,20 @@ namespace FinanceManager.Data
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder
+                .Entity<IdentityUser>()
+                .HasMany<RefreshToken>()
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .Entity<RefreshToken>()
+                .HasKey(e => e.Token);
+            modelBuilder
+                .Entity<RefreshToken>()
+                .Property(e => e.Token)
+                .ValueGeneratedOnAdd();
                 
 
             // Value conversions and data seeding

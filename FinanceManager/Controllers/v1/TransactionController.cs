@@ -73,7 +73,6 @@ namespace FinanceManager.Controllers.v1
             var transactionResponse = _mapper.Map<TransactionResponse>(transaction);
 
             return CreatedAtRoute("GetTransaction", new { transactionId = transactionResponse.Id }, transactionResponse);
-
         }
 
         [HttpPut("{transactionId:int}")]

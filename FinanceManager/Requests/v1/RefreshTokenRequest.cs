@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Responses.v1
+namespace FinanceManager.Requests.v1
 {
-    public class AuthenticationSucceededResponse
+    public class RefreshTokenRequest
     {
         public string Token { get; set; }
-        public string RefreshToken { get; set; }
+        public Guid RefreshToken { get; set; }
     }
 }

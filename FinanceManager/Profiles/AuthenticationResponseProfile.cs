@@ -11,7 +11,10 @@ namespace FinanceManager.Profiles
             CreateMap<AuthenticationResult, AuthenticationSucceededResponse>()
                 .ForMember(
                 destination => destination.Token,
-                option => option.MapFrom(src => src.Token));
+                option => option.MapFrom(src => src.Token))
+                .ForMember(
+                destination => destination.RefreshToken,
+                option => option.MapFrom(src => src.RefreshToken));
 
             CreateMap<AuthenticationResult, AuthenticationFailedResponse>()
                 .ForMember(

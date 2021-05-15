@@ -14,6 +14,14 @@
     <Compile Remove="Migrations\20210512155856_FixEmailAndUserId.Designer.cs" />
     <Compile Remove="Migrations\20210512161953_DeleteUserIdDefaultValue.cs" />
     <Compile Remove="Migrations\20210512161953_DeleteUserIdDefaultValue.Designer.cs" />
+    <Compile Remove="Migrations\20210514172920_AddRefreshTokens.cs" />
+    <Compile Remove="Migrations\20210514172920_AddRefreshTokens.Designer.cs" />
+    <Compile Remove="Migrations\20210514193050_AddRefreshTokenGenOnAdd.cs" />
+    <Compile Remove="Migrations\20210514193050_AddRefreshTokenGenOnAdd.Designer.cs" />
+    <Compile Remove="Migrations\20210514195106_AddRefreshTokenGenOnAdd.cs" />
+    <Compile Remove="Migrations\20210514195106_AddRefreshTokenGenOnAdd.Designer.cs" />
+    <Compile Remove="Migrations\20210514211409_AddRefreshTokenGenOnAdd.cs" />
+    <Compile Remove="Migrations\20210514211409_AddRefreshTokenGenOnAdd.Designer.cs" />
   </ItemGroup>
 
 

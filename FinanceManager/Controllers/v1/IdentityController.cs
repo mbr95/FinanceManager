@@ -60,5 +60,20 @@ namespace FinanceManager.Controllers.v1
             var authSucceeded = _mapper.Map<AuthenticationSucceededResponse>(authResponse);
             return Ok(authSucceeded);
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest refreshTokenRequest)
+        {
+            var authResponse = await _identityService.RefreshTokenAsync(refreshTokenRequest.Token, refreshTokenRequest.RefreshToken);
+
+            if (!authResponse.Success)
+            {
+                var authFailed = _mapper.Map<AuthenticationFailedResponse>(authResponse);
+                return BadRequest(authFailed.Errors);
+            }
+
+            var authSucceeded = _mapper.Map<AuthenticationSucceededResponse>(authResponse);
+            return Ok(authSucceeded);
+        }
     }
 }
