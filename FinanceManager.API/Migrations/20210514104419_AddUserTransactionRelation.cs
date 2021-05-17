@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FinanceManager.Migrations
+namespace FinanceManager.API.Migrations
 {
     public partial class AddUserTransactionRelation : Migration
     {
