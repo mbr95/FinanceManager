@@ -5,7 +5,6 @@ using FinanceManager.API.Responses.v1;
 using FinanceManager.API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace FinanceManager.API.Controllers.v1
@@ -25,7 +24,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserRequest registerUserRequest)
+        public async Task<IActionResult> RegisterUserAsync([FromBody] RegisterUserRequest registerUserRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -44,7 +43,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUserRequest)
+        public async Task<IActionResult> LoginUserAsync([FromBody] LoginUserRequest loginUserRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -62,8 +61,11 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest refreshTokenRequest)
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+
             var authResponse = await _identityService.RefreshTokenAsync(refreshTokenRequest.Token, refreshTokenRequest.RefreshToken);
 
             if (!authResponse.Success)

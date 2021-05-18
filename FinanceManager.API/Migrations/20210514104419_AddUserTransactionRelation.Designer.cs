@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FinanceManager.Migrations
+namespace FinanceManager.API.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20210514104419_AddUserTransactionRelation")]

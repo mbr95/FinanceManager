@@ -29,7 +29,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             var transactions = await _transactionService.GetTransactionsAsync();
             var transactionsResponse = _mapper.Map<IEnumerable<TransactionResponse>>(transactions);
@@ -38,7 +38,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpGet("{transactionId:int}", Name = "GetTransaction")]
-        public async Task<IActionResult> Get(int transactionId)
+        public async Task<IActionResult> GetAsync(int transactionId)
         {
             var userId = HttpContext.GetUserId();
             var isValidUser = await _transactionService.IsTransactionOwnerAsync(transactionId, userId);
@@ -57,7 +57,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTransactionRequest transactionRequest)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateTransactionRequest transactionRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -76,7 +76,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpPut("{transactionId:int}")]
-        public async Task<IActionResult> Update([FromRoute] int transactionId, [FromBody] UpdateTransactionRequest transactionRequest)
+        public async Task<IActionResult> UpdateAsync([FromRoute] int transactionId, [FromBody] UpdateTransactionRequest transactionRequest)
         {
             var userId = HttpContext.GetUserId();
             var isValidUser = await _transactionService.IsTransactionOwnerAsync(transactionId, userId);
@@ -102,7 +102,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpDelete("{transactionId:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int transactionId)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int transactionId)
         {
             var userId = HttpContext.GetUserId();
             var isValidUser = await _transactionService.IsTransactionOwnerAsync(transactionId, userId);

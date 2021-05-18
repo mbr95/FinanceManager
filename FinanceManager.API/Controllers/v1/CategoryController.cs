@@ -25,7 +25,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             var categories = await _transactionCategoryService.GetCategoriesAsync();
             var categoriesResponse = _mapper.Map<IEnumerable<TransactionCategoryResponse>>(categories);
@@ -34,7 +34,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpGet("{categoryId:int}")]
-        public async Task<IActionResult> Get([FromRoute] int categoryId)
+        public async Task<IActionResult> GetAsync([FromRoute] int categoryId)
         {
             var category = await _transactionCategoryService.GetCategoryByIdAsync(categoryId);
 
