@@ -91,7 +91,7 @@ namespace FinanceManager.API.Extensions
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<ITransactionCategoryService, TransactionCategoryService>();
-            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             return services;
         }
@@ -99,6 +99,7 @@ namespace FinanceManager.API.Extensions
         public static IServiceCollection ConfigureIdentity(this IServiceCollection services)
         {
             services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
 
             return services;

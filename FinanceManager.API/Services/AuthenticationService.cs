@@ -14,16 +14,18 @@ using System.Threading.Tasks;
 
 namespace FinanceManager.API.Services
 {
-    public class IdentityService : IIdentityService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtOptions _jwtOptions;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly DataContext _context;
 
-        public IdentityService(UserManager<IdentityUser> userManager, JwtOptions jwtOptions, TokenValidationParameters tokenValidationParameters, DataContext context)
+        public AuthenticationService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, JwtOptions jwtOptions, TokenValidationParameters tokenValidationParameters, DataContext context)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwtOptions = jwtOptions;
             _tokenValidationParameters = tokenValidationParameters;
             _context = context;
@@ -38,13 +40,15 @@ namespace FinanceManager.API.Services
                 return GetAuthenticationResultWithErrors("User with this email address already exists.");
             }
 
-            var createdUser = await _userManager.CreateAsync(user, user.PasswordHash);
+            var createdUser = await _userManager.CreateAsync(user, user.PasswordHash);            
 
             if (!createdUser.Succeeded)
             {
                 var errors = createdUser.Errors.Select(e => e.Description).ToString();
                 return GetAuthenticationResultWithErrors(errors);
             }
+
+            await _userManager.AddToRoleAsync(user, "StandardUser");
 
             return await GenerateAuthenticationResultWithTokenAsync(user);
         }
@@ -115,15 +119,34 @@ namespace FinanceManager.API.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
+            var claims = new List<Claim>()
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("id", user.Id),
+            };
+
+            var userRolesNames = await _userManager.GetRolesAsync(user);
+            foreach (var userRoleName in userRolesNames)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRoleName));
+                var userRole = await _roleManager.FindByNameAsync(userRoleName);
+
+                if (userRole != null)
+                {
+                    var roleClaims = await _roleManager.GetClaimsAsync(userRole);
+                    foreach (var roleClaim in roleClaims)
+                    {
+                        if (!claims.Contains(roleClaim))
+                            claims.Add(roleClaim);
+                    }
+                }
+            };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim("id", user.Id)
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(_jwtOptions.TokenLifetime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

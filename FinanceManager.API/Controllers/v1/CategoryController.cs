@@ -12,7 +12,7 @@ namespace FinanceManager.API.Controllers.v1
     [Route("api/v{version:apiVersion}/categories/")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator,StandardUser")]
     public class CategoryController : ControllerBase
     {
         private readonly ITransactionCategoryService _transactionCategoryService;

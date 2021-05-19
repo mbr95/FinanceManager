@@ -16,7 +16,7 @@ namespace FinanceManager.API.Controllers.v1
     [Route("api/v{version:apiVersion}/transactions/")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "StandardUser")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
@@ -29,6 +29,7 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetAllAsync()
         {
             var transactions = await _transactionService.GetTransactionsAsync();

@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace FinanceManager.API.Controllers.v1
 {
-    [Route("api/v{version:apiVersion}/identity/")]
+    [Route("api/v{version:apiVersion}/auth/")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class IdentityController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
-        private readonly IIdentityService _identityService;
+        private readonly IAuthenticationService _identityService;
         private readonly IMapper _mapper;
 
-        public IdentityController(IIdentityService identityService, IMapper mapper)
+        public AuthenticationController(IAuthenticationService identityService, IMapper mapper)
         {
             _identityService = identityService;
             _mapper = mapper;
