@@ -40,19 +40,16 @@ namespace FinanceManager.API.Controllers.v1
         [HttpGet("{transactionId:int}", Name = "GetTransaction")]
         public async Task<IActionResult> GetAsync(int transactionId)
         {
-            var userId = HttpContext.GetUserId();
-            var isValidUser = await _transactionService.IsTransactionOwnerAsync(transactionId, userId);
-
-            if (!isValidUser)
-                return BadRequest(new { error = "User is not transaction owner." });
-
             var transaction = await _transactionService.GetTransactionByIdAsync(transactionId);
-
             if (transaction == null)
                 return NotFound();
 
-            var transactionResponse = _mapper.Map<TransactionResponse>(transaction);
+            var userId = HttpContext.GetUserId();
+            var isValidUser = await _transactionService.IsTransactionOwnerAsync(transactionId, userId);
+            if (!isValidUser)
+                return BadRequest(new { error = "User is not transaction owner." });
 
+            var transactionResponse = _mapper.Map<TransactionResponse>(transaction);
             return Ok(transactionResponse);
         }
 
