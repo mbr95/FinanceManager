@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
+﻿using FinanceManager.API.Formatters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.API.Extensions
 {
     public static class ModelStateExtensions
     {
-        public static IEnumerable<ModelError> GetErrorMessages(this ModelStateDictionary dictionary)
+        public static string GetSerializedErrorMessages(this ModelStateDictionary dictionary)
         {
-            return dictionary.Values.SelectMany(v => v.Errors);
+            var modelErrors = dictionary.Values.SelectMany(v => v.Errors);
+            var serializedModelErrors = JsonFormatter.Serialize(modelErrors);
+
+            return serializedModelErrors;
         }
     }
 }

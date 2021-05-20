@@ -7,7 +7,6 @@ using FinanceManager.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -58,7 +57,7 @@ namespace FinanceManager.API.Controllers.v1
         public async Task<IActionResult> CreateAsync([FromBody] CreateTransactionRequest transactionRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
+                return BadRequest(ModelState.GetSerializedErrorMessages());
 
             var transaction = _mapper.Map<Transaction>(transactionRequest);
             transaction.UserId = HttpContext.GetUserId();
@@ -83,7 +82,7 @@ namespace FinanceManager.API.Controllers.v1
                 return BadRequest(new { error = "User is not transaction owner." });
 
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
+                return BadRequest(ModelState.GetSerializedErrorMessages());
 
             var transaction = _mapper.Map<Transaction>(transactionRequest);
             transaction.Id = transactionId;

@@ -97,9 +97,6 @@ namespace FinanceManager.API.Services
             if (DateTime.UtcNow > storedRefreshedToken.ExpiryDate)
                 return GetAuthenticationResultWithErrors("This refresh token has expired.");
 
-            if (storedRefreshedToken.Invalidated)
-                return GetAuthenticationResultWithErrors("This refresh token has been invalidated.");
-
             if (storedRefreshedToken.Used)
                 return GetAuthenticationResultWithErrors("This refresh token has been used.");
 
@@ -159,7 +156,7 @@ namespace FinanceManager.API.Services
                 JwtId = token.Id,
                 UserId = user.Id,
                 CreationDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMonths(6)
+                ExpiryDate = DateTime.UtcNow.AddMonths(1)
             };
 
             await _context.RefreshTokens.AddAsync(refreshToken);
@@ -198,7 +195,7 @@ namespace FinanceManager.API.Services
 
         private AuthenticationResult GetAuthenticationResultWithErrors(string errors)
         {
-            return new AuthenticationResult { Errors = new[] { errors } };
+            return new AuthenticationResult { Errors = errors.Split(",")  };
         }
     }
 }

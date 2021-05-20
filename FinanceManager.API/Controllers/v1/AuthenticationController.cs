@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using FinanceManager.API.Extensions;
+using FinanceManager.API.Formatters;
 using FinanceManager.API.Requests.v1;
 using FinanceManager.API.Responses.v1;
 using FinanceManager.API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace FinanceManager.API.Controllers.v1
@@ -27,7 +29,7 @@ namespace FinanceManager.API.Controllers.v1
         public async Task<IActionResult> RegisterUserAsync([FromBody] RegisterUserRequest registerUserRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
+                return BadRequest(ModelState.GetSerializedErrorMessages());
 
             var newUser = _mapper.Map<IdentityUser>(registerUserRequest);
             var authResponse = await _identityService.RegisterUserAsync(newUser);
@@ -35,7 +37,7 @@ namespace FinanceManager.API.Controllers.v1
             if (!authResponse.Success)
             {
                 var authFailed = _mapper.Map<AuthenticationFailedResponse>(authResponse);
-                return BadRequest(authFailed.Errors);
+                return BadRequest(JsonFormatter.Serialize(authFailed));
             }
 
             var authSucceeded = _mapper.Map<AuthenticationSucceededResponse>(authResponse);
@@ -46,14 +48,14 @@ namespace FinanceManager.API.Controllers.v1
         public async Task<IActionResult> LoginUserAsync([FromBody] LoginUserRequest loginUserRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
+                return BadRequest(ModelState.GetSerializedErrorMessages());
 
             var authResponse = await _identityService.LoginUserAsync(loginUserRequest.UserName, loginUserRequest.Password);
 
             if (!authResponse.Success)
             {
                 var authFailed = _mapper.Map<AuthenticationFailedResponse>(authResponse);
-                return BadRequest(authFailed.Errors);
+                return BadRequest(JsonFormatter.Serialize(authFailed));
             }
 
             var authSucceeded = _mapper.Map<AuthenticationSucceededResponse>(authResponse);
@@ -64,14 +66,14 @@ namespace FinanceManager.API.Controllers.v1
         public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
+                return BadRequest(ModelState.GetSerializedErrorMessages());
 
             var authResponse = await _identityService.RefreshTokenAsync(refreshTokenRequest.Token, refreshTokenRequest.RefreshToken);
 
             if (!authResponse.Success)
             {
                 var authFailed = _mapper.Map<AuthenticationFailedResponse>(authResponse);
-                return BadRequest(authFailed.Errors);
+                return BadRequest(JsonFormatter.Serialize(authFailed));
             }
 
             var authSucceeded = _mapper.Map<AuthenticationSucceededResponse>(authResponse);
