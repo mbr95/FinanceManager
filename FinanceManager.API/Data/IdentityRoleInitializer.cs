@@ -11,7 +11,7 @@ namespace FinanceManager.API.Data
 {
     public static class IdentityRolesInitializer
     {
-        public static async Task Initialize(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
             var dbContext = serviceProvider.GetRequiredService<DataContext>();
             await dbContext.Database.MigrateAsync();

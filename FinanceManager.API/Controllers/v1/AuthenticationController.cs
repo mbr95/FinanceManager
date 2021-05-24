@@ -7,6 +7,7 @@ using FinanceManager.API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 
 namespace FinanceManager.API.Controllers.v1
@@ -32,6 +33,7 @@ namespace FinanceManager.API.Controllers.v1
                 return BadRequest(ModelState.GetSerializedErrorMessages());
 
             var newUser = _mapper.Map<IdentityUser>(registerUserRequest);
+            
             var authResponse = await _identityService.RegisterUserAsync(newUser);
 
             if (!authResponse.Success)

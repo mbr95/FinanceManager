@@ -47,9 +47,9 @@ namespace FinanceManager.API.Services
                 var errors = createdUser.Errors.Select(e => e.Description).ToString();
                 return GetAuthenticationResultWithErrors(errors);
             }
-
-            await _userManager.AddToRoleAsync(user, "StandardUser");
-
+            
+            await _userManager.AddToRoleAsync(user, "StandardUser");            
+                                             
             return await GenerateAuthenticationResultWithTokenAsync(user);
         }
 

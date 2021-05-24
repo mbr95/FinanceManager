@@ -1,12 +1,14 @@
 ﻿using FinanceManager.API.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace FinanceManager.API.IntegrationTests
+namespace FinanceManager.API.Tests.IntegrationTests
 {
     public class FinanceManagerAppFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {

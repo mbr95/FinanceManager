@@ -14,7 +14,7 @@ namespace FinanceManager.API
 
             using (var serviceScope = host.Services.CreateScope())
             {
-                await IdentityRolesInitializer.Initialize(serviceScope.ServiceProvider);
+                await IdentityRolesInitializer.InitializeAsync(serviceScope.ServiceProvider);
             }
 
             await host.RunAsync();
