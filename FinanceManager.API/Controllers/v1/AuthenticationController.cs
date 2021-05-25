@@ -6,8 +6,6 @@ using FinanceManager.API.Responses.v1;
 using FinanceManager.API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Threading.Tasks;
 
 namespace FinanceManager.API.Controllers.v1

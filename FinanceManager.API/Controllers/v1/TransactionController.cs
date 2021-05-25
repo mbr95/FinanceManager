@@ -15,7 +15,7 @@ namespace FinanceManager.API.Controllers.v1
     [Route("api/v{version:apiVersion}/transactions/")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "StandardUser")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "StandardUser,Administrator")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;

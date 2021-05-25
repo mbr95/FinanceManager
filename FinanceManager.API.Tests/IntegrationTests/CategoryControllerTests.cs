@@ -11,12 +11,14 @@ using Xunit;
 
 namespace FinanceManager.API.Tests.IntegrationTests
 {
+    [Collection("IntegrationTest")]
     public class CategoryControllerTests : IntegrationTest
     {
         [Fact]
         public async Task GetAllAsync_ReturnsAllPredefinedCategories()
         {
-            await AuthenticateAsync();
+            await CreateUserDataAsync();
+            await AuthenticateAsync(TestStandardUser);
 
             var response = await TestClient.GetAsync("api/v1/categories");
             var categoriesResponse = await response.Content.ReadAsAsync<IEnumerable<TransactionCategoryResponse>>();
@@ -32,7 +34,8 @@ namespace FinanceManager.API.Tests.IntegrationTests
         [InlineData(76)]
         public async Task GetAllAsync_WhenCategoryDoesntExist_ReturnsNotFound(int categoryId)
         {
-            await AuthenticateAsync();
+            await CreateUserDataAsync();
+            await AuthenticateAsync(TestStandardUser);
 
             var response = await TestClient.GetAsync($"api/v1/categories/{categoryId}");
 
@@ -54,8 +57,9 @@ namespace FinanceManager.API.Tests.IntegrationTests
         [InlineData(12)]
         public async Task GetAsync_WhenCategoryExists_ReturnsChosenCategory(int categoryId)
         {
-            var expectedCategory = new TransactionCategoryResponse { Id = categoryId, Name = ((TransactionCategoryId)categoryId).ToString() }; 
-            await AuthenticateAsync();
+            var expectedCategory = new TransactionCategoryResponse { Id = categoryId, Name = ((TransactionCategoryId)categoryId).ToString() };
+            await CreateUserDataAsync();
+            await AuthenticateAsync(TestStandardUser);
 
             var response = await TestClient.GetAsync($"api/v1/categories/{categoryId}");
             var categoryResponse = await response.Content.ReadAsAsync<TransactionCategoryResponse>();
