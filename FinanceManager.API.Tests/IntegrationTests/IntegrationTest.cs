@@ -20,8 +20,8 @@ namespace FinanceManager.API.Tests.IntegrationTests
         protected readonly HttpClient TestClient;
         protected readonly IdentityUser TestAdmin = new IdentityUser { UserName = "AdminUser", Email = "administrator1@example.com"};
         protected readonly IdentityUser TestStandardUser = new IdentityUser { UserName = "Testuser", Email = "testmail12@example.com"};
-        private readonly string testAdminPassword = "Newadminpassword123!";
-        private readonly string testUserPassword = "Testpassword123!";
+        protected readonly string testAdminPassword = "Newadminpassword123!";
+        protected readonly string testUserPassword = "Testpassword123!";
 
         protected IntegrationTest()
         {
