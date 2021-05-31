@@ -15,3 +15,4 @@ WORKDIR /app
 COPY --from=build /build/out .
 
 ENTRYPOINT ["dotnet", "FinanceManager.API.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet FinanceManager.API.dll
