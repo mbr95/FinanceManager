@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo "${{ secrets.HEROKU_EMAIL }}"
       - uses: gonuit/heroku-docker-deploy@v1.3.3
         with:     
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
