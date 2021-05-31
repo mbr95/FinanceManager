@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master 
-run:
-echo ${{secrets.HEROKU_APP_NAME}}
-
 jobs:
   build:
     runs-on: ubuntu-latest
