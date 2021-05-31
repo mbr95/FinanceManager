@@ -3,7 +3,9 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - master 
+      
+echo ${{secrets.HEROKU_APP_NAME}}
 
 jobs:
   build:
