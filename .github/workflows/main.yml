@@ -16,4 +16,3 @@ jobs:
           heroku_app_name: "finance-manager-api" 
           heroku_email: "${{secrets.HEROKU_EMAIL}}"
           usedocker: true
-          justlogin: true
