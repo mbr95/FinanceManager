@@ -24,4 +24,4 @@ docker-compose build
 docker-compose up
 ```
 Swagger documentation will be available at
-https://localhost:5000/swagger/index.html
+localhost:5000/swagger/index.html
