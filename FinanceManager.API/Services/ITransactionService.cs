@@ -6,7 +6,7 @@ namespace FinanceManager.API.Services
 {
     public interface ITransactionService
     {
-        Task<IEnumerable<Transaction>> GetTransactionsAsync();
+        Task<IEnumerable<Transaction>> GetTransactionsAsync(string userId);
         Task<Transaction> GetTransactionByIdAsync(int id);
         Task<bool> CreateTransactionAsync(Transaction transaction);
         Task<bool> UpdateTransactionAsync(Transaction transactionToUpdate);

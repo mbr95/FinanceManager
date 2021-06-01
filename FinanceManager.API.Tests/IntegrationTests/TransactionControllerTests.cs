@@ -18,7 +18,7 @@ namespace FinanceManager.API.Tests.IntegrationTests
     public class TransactionControllerTests : IntegrationTest
     {
         [Fact]
-        public async Task GetAllAsync_ReturnsAllTransactionsFromDatabase()
+        public async Task GetAllAsync_ReturnsAllTransactionsFromDatabaseForUser()
         {
             var transactions = new List<Transaction>()
             {

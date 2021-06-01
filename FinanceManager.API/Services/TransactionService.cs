@@ -2,6 +2,7 @@
 using FinanceManager.API.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinanceManager.API.Services
@@ -15,9 +16,13 @@ namespace FinanceManager.API.Services
             _dataContext = dataContext;
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsAsync()
+        public async Task<IEnumerable<Transaction>> GetTransactionsAsync(string userId)
         {
-            return await _dataContext.Transactions.ToListAsync();
+            var transactions = _dataContext.Transactions.AsQueryable();
+
+            var userTransactions = transactions.Where(t => t.UserId == userId);
+
+            return await userTransactions.ToListAsync();
         }
 
         public async Task<Transaction> GetTransactionByIdAsync(int id)

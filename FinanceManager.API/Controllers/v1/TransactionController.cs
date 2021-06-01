@@ -28,10 +28,10 @@ namespace FinanceManager.API.Controllers.v1
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var transactions = await _transactionService.GetTransactionsAsync();
+            var userId = HttpContext.GetUserId();
+            var transactions = await _transactionService.GetTransactionsAsync(userId);
             var transactionsResponse = _mapper.Map<IEnumerable<TransactionResponse>>(transactions);
 
             return Ok(transactionsResponse);
