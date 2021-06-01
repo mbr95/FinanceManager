@@ -74,6 +74,7 @@ namespace FinanceManager.API.Tests.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [Fact]
         public async Task LoginUserAsync_WhenUserDataMatchesUserInDatabase_ReturnsResponseWithTokens()
         {
             var loginUserRequest = new LoginUserRequest { UserName = TestStandardUser.UserName, Password = testUserPassword };
